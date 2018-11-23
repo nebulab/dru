@@ -25,7 +25,7 @@ module Dru
     # @api public
     def command(**options)
       require 'tty-command'
-      TTY::Command.new(options)
+      TTY::Command.new({ printer: :quiet, uuid: false }.merge(options))
     end
 
     # The cursor movement
@@ -116,6 +116,16 @@ module Dru
     def exec_exist?(*args)
       require 'tty-which'
       TTY::Which.exist?(*args)
+    end
+
+    private
+
+    def path
+      paths = ['-f', '/Users/chrimo/Code/docker-projects/floyd/docker-compose.yml']
+      if @options[:environment] != 'development'
+        paths += ['-f', "/Users/chrimo/Code/docker-projects/floyd/docker-compose.#{@options[:environment]}.yml"]
+      end
+      paths
     end
   end
 end
