@@ -3,7 +3,14 @@ RSpec.describe Dru do
     expect(Dru::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
+  describe '.config' do
+    subject { described_class.config }
+
+    it { is_expected.to be_a(Dru::Config) }
+
+    it 'sets the default dru config file path' do
+      expect(Dru::Config.instance).to receive(:config_file_path=).with(Dru::DRUCONFIG)
+      subject
+    end
   end
 end
