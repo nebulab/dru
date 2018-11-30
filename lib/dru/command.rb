@@ -25,7 +25,7 @@ module Dru
     # @api public
     def command(**options)
       require 'tty-command'
-      TTY::Command.new(options)
+      TTY::Command.new({ printer: :quiet, uuid: false }.merge(options))
     end
 
     # The cursor movement
