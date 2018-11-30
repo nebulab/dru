@@ -17,5 +17,17 @@ module Dru
       puts "v#{Dru::VERSION}"
     end
     map %w(--version -v) => :version
+
+    desc 'up', 'Command description...'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def up(*)
+      if options[:help]
+        invoke :help, ['up']
+      else
+        require_relative 'commands/up'
+        Dru::Commands::Up.new(options).execute
+      end
+    end
   end
 end
