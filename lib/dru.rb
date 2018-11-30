@@ -1,4 +1,3 @@
-require "dru/version"
 require "dru/config"
 require "dru/cli"
 
