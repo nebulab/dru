@@ -31,5 +31,17 @@ module Dru
         Dru::Commands::Up.new(options).execute
       end
     end
+
+    desc 'runner', 'Command description...'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def runner(*)
+      if options[:help]
+        invoke :help, ['runner']
+      else
+        require_relative 'commands/runner'
+        Dru::Commands::Runner.new(options).execute
+      end
+    end
   end
 end
