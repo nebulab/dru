@@ -1,7 +1,7 @@
 require 'dru/commands/runner'
 
 RSpec.describe Dru::Commands::Runner do
-  it "executes `runner` command successfully" do
+  it 'executes `run` command successfully' do
     output = StringIO.new
     options = {}
     command = Dru::Commands::Runner.new(options)

@@ -1,9 +1,9 @@
-RSpec.describe "`dru runner` command", type: :cli do
-  it "executes `dru help runner` command successfully" do
-    output = `dru help runner`
+RSpec.describe '`dru run` command', type: :cli do
+  it 'executes `dru help run` command successfully' do
+    output = `dru help run`
     expected_output = <<-OUT
 Usage:
-  dru runner
+  dru run
 
 Options:
   -h, [--help], [--no-help]  # Display usage information

@@ -32,7 +32,7 @@ module Dru
       end
     end
 
-    desc 'runner', 'Command description...'
+    desc 'run', 'Command description...'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
     def runner(*)
@@ -43,5 +43,6 @@ module Dru
         Dru::Commands::Runner.new(options).execute
       end
     end
+    map %w(run) => :runner
   end
 end
