@@ -6,9 +6,10 @@ Usage:
   dru up
 
 Options:
-  -h, [--help], [--no-help]  # Display usage information
+  -h, [--help], [--no-help]      # Display usage information
+  -d, [--detach], [--no-detach]  # Detached mode
 
-Command description...
+Build, (re)create, start, and attach to default container
     OUT
 
     expect(output).to eq(expected_output)

@@ -18,9 +18,11 @@ module Dru
     end
     map %w(--version -v) => :version
 
-    desc 'up', 'Command description...'
+    desc 'up', 'Build, (re)create, start, and attach to default container'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
+    method_option :detach, aliases: '-d', type: :boolean,
+                           desc: 'Detached mode'
     def up(*)
       if options[:help]
         invoke :help, ['up']
