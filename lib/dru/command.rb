@@ -6,6 +6,10 @@ module Dru
   class Command
     extend Forwardable
 
+    DOCKER_COMPOSE_COMMAND = 'docker-compose'.freeze
+
+    attr_accessor :options
+
     def_delegators :command, :run
 
     # Execute this command
@@ -25,7 +29,7 @@ module Dru
     # @api public
     def command(**options)
       require 'tty-command'
-      TTY::Command.new(options)
+      TTY::Command.new({ printer: :quiet, uuid: false }.merge(options))
     end
 
     # The cursor movement
@@ -116,6 +120,52 @@ module Dru
     def exec_exist?(*args)
       require 'tty-which'
       TTY::Which.exist?(*args)
+    end
+
+    def project_name
+      File.basename(Dir.pwd)
+    end
+
+    def environment
+      options && options[:environment]
+    end
+
+    def project_configuration_path
+      File.expand_path(project_name, Dru.config.docker_projects_folder)
+    end
+
+    def default_docker_compose
+      File.join(project_configuration_path, 'docker-compose.yml')
+    end
+
+    def environment_docker_compose
+      return unless environment
+
+      File.join(project_configuration_path, "docker-compose.#{environment}.yml")
+    end
+
+    def docker_compose_paths
+      docker_compose_default_path + docker_compose_environment_path
+    end
+
+    def run_docker_compose_command(*args, **options)
+      command(options).run(DOCKER_COMPOSE_COMMAND, *docker_compose_paths, *args)
+    end
+
+    def container_name_to_id(container_name = 'app')
+      run_docker_compose_command('ps', '-q', container_name, printer: :null).first
+    end
+
+    private
+
+    def docker_compose_default_path
+      ['-f', default_docker_compose]
+    end
+
+    def docker_compose_environment_path
+      return [] unless environment_docker_compose
+
+      ['-f', environment_docker_compose]
     end
   end
 end
