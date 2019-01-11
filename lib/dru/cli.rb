@@ -18,6 +18,18 @@ module Dru
     end
     map %w(--version -v) => :version
 
+    desc 'down', 'Command description...'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def down(*)
+      if options[:help]
+        invoke :help, ['down']
+      else
+        require_relative 'commands/down'
+        Dru::Commands::Down.new(options).execute
+      end
+    end
+
     desc 'attach', 'Attach local standard input, output, and error streams to a running container'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
