@@ -1,14 +1,14 @@
 require 'dru/commands/up'
+require 'dru/commands/Attach'
 
 RSpec.describe Dru::Commands::Up do
   subject { Dru::Commands::Up.new(options: options) }
 
   let(:options) { {} }
-  let(:container_id) { 'container_id' }
-  let(:docker_attach_command) { "#{described_class::DOCKER_ATTACH_COMMAND} #{container_id}" }
+  let(:attach_command) { double(:attach_command, execute: nil) }
 
   before do
-    allow(subject).to receive(:container_name_to_id).and_return(container_id)
+    allow(Dru::Commands::Attach).to receive(:new).and_return(attach_command)
   end
 
   after do
@@ -16,20 +16,9 @@ RSpec.describe Dru::Commands::Up do
   end
 
   context 'when not in detached mode' do
-    context 'when ctrl-d is pressed' do
-      it "doesn't execute docker-compose down" do
-        expect(subject).to receive(:run_docker_compose_command).with('up', '-d')
-        expect(subject).to receive(:system).with(docker_attach_command).and_return(false)
-        expect(subject).not_to receive(:run_docker_compose_command).with('down')
-      end
-    end
-
-    context 'when ctrl-c is pressed' do
-      it 'executes docker-compose down' do
-        expect(subject).to receive(:run_docker_compose_command).with('up', '-d')
-        expect(subject).to receive(:system).with(docker_attach_command).and_return(true)
-        expect(subject).to receive(:run_docker_compose_command).with('down')
-      end
+    it 'calls the attach command' do
+      expect(subject).to receive(:run_docker_compose_command).with('up', '-d')
+      expect(attach_command).to receive(:execute)
     end
   end
 
@@ -38,8 +27,7 @@ RSpec.describe Dru::Commands::Up do
 
     it "returns after starting the stack" do
       expect(subject).to receive(:run_docker_compose_command).with('up', '-d')
-      expect(subject).not_to receive(:system)
-      expect(subject).not_to receive(:run_docker_compose_command).with('down')
+      expect(attach_command).not_to receive(:execute)
     end
   end
 end
