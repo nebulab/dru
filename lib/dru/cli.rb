@@ -18,6 +18,18 @@ module Dru
     end
     map %w(--version -v) => :version
 
+    desc 'attach', 'Command description...'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def attach(*)
+      if options[:help]
+        invoke :help, ['attach']
+      else
+        require_relative 'commands/attach'
+        Dru::Commands::Attach.new(options).execute
+      end
+    end
+
     desc 'exec', 'Execute a command in a running container.'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
