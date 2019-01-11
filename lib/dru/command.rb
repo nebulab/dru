@@ -149,7 +149,11 @@ module Dru
     end
 
     def run_docker_compose_command(*args, **options)
-      command(options).run(DOCKER_COMPOSE_COMMAND, *docker_compose_paths, *args)
+      if options[:tty]
+        system(DOCKER_COMPOSE_COMMAND, *docker_compose_paths, *args)
+      else
+        command(options).run(DOCKER_COMPOSE_COMMAND, *docker_compose_paths, *args)
+      end
     end
 
     def container_name_to_id(container_name = 'app')
