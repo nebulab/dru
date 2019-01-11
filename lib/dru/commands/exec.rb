@@ -4,9 +4,9 @@ require_relative '../container_command'
 
 module Dru
   module Commands
-    class Runner < Dru::ContainerCommand
+    class Exec < Dru::ContainerCommand
       def execute(input: $stdin, output: $stdout)
-        run_docker_compose_command('run', '--rm', '--entrypoint', 'sh -c', container, command, tty: true)
+        run_docker_compose_command('exec', container, command, tty: true)
       end
     end
   end
