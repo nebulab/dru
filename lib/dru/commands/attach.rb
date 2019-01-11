@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../container_command'
+require_relative './down'
 
 module Dru
   module Commands
@@ -14,7 +15,7 @@ module Dru
       private
 
       def stop_docker_compose
-        run_docker_compose_command('down')
+        Down.new.execute
       end
 
       def attach_to_container
