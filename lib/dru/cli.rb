@@ -18,6 +18,18 @@ module Dru
     end
     map %w(--version -v) => :version
 
+    desc 'exec', 'Command description...'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def exec(*)
+      if options[:help]
+        invoke :help, ['exec']
+      else
+        require_relative 'commands/exec'
+        Dru::Commands::Exec.new(options).execute
+      end
+    end
+
     desc 'up', 'Build, (re)create, start, and attach to default container'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
