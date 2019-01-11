@@ -17,10 +17,6 @@ module Dru
 
     protected
 
-    def command
-      @command.join(' ')
-    end
-
     def container
       options[:container]
     end
