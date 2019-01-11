@@ -1,13 +1,13 @@
 require 'dru/commands/down'
 
 RSpec.describe Dru::Commands::Down do
-  it "executes `down` command successfully" do
-    output = StringIO.new
-    options = {}
-    command = Dru::Commands::Down.new(options)
+  subject { Dru::Commands::Down.new }
 
-    command.execute(output: output)
+  after do
+    subject.execute(output: StringIO.new)
+  end
 
-    expect(output.string).to eq("OK\n")
+  it "executes docker-compose down" do
+    expect(subject).to receive(:run_docker_compose_command).with('down')
   end
 end

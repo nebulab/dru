@@ -8,7 +8,7 @@ Usage:
 Options:
   -h, [--help], [--no-help]  # Display usage information
 
-Command description...
+Stops containers and removes containers, networks, volumes, and images created by `up`.
     OUT
 
     expect(output).to eq(expected_output)

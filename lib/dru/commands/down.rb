@@ -5,13 +5,8 @@ require_relative '../command'
 module Dru
   module Commands
     class Down < Dru::Command
-      def initialize(options)
-        @options = options
-      end
-
       def execute(input: $stdin, output: $stdout)
-        # Command logic goes here ...
-        output.puts "OK"
+        run_docker_compose_command('down')
       end
     end
   end

@@ -18,7 +18,7 @@ module Dru
     end
     map %w(--version -v) => :version
 
-    desc 'down', 'Command description...'
+    desc 'down', 'Stops containers and removes containers, networks, volumes, and images created by `up`.'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
     def down(*)
@@ -26,7 +26,7 @@ module Dru
         invoke :help, ['down']
       else
         require_relative 'commands/down'
-        Dru::Commands::Down.new(options).execute
+        Dru::Commands::Down.new.execute
       end
     end
 
