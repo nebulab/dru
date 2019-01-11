@@ -1,4 +1,5 @@
 require 'dru/commands/attach'
+require 'dru/commands/down'
 
 RSpec.describe Dru::Commands::Attach do
   subject { Dru::Commands::Attach.new(options: options) }
@@ -17,9 +18,11 @@ RSpec.describe Dru::Commands::Attach do
   context 'when container is set' do
     let(:container_id) { 'container_id' }
     let(:docker_attach_command) { "#{described_class::DOCKER_ATTACH_COMMAND} #{container_id}" }
+    let(:down_command) { double(:down_command, execute: nil) }
 
     before do
       allow(subject).to receive(:container_name_to_id).and_return(container_id)
+      allow(Dru::Commands::Down).to receive(:new).and_return(down_command)
     end
 
     after do
@@ -33,14 +36,14 @@ RSpec.describe Dru::Commands::Attach do
     context 'when ctrl-d is pressed' do
       it "doesn't execute docker-compose down" do
         allow(subject).to receive(:system).with(docker_attach_command).and_return(false)
-        expect(subject).not_to receive(:run_docker_compose_command).with('down')
+        expect(down_command).not_to receive(:execute)
       end
     end
 
     context 'when ctrl-c is pressed' do
       it 'executes docker-compose down' do
         allow(subject).to receive(:system).with(docker_attach_command).and_return(true)
-        expect(subject).to receive(:run_docker_compose_command).with('down')
+        expect(down_command).to receive(:execute)
       end
     end
   end
