@@ -7,12 +7,14 @@ Gem::Specification.new do |spec|
   spec.name          = "dru"
   spec.license       = "MIT"
   spec.version       = Dru::VERSION
-  spec.authors       = ["Christian Rimondi"]
-  spec.email         = ["christian.rimondi@gmail.com"]
+  spec.authors       = ["Christian Rimondi", "Alessio Rocco"]
+  spec.email         = ["christianrimondi@nebulab.it", "alessiorocco@nebulab.it"]
 
-  spec.summary       = %q{Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{Write a longer description or delete this line.}
-  spec.homepage      = "http://nebulab.it"
+  spec.summary       = %q{DRU - Docker Compose Run Utility}
+  spec.description   = <<-EOS
+    A ruby tool to simplify the development workflow with Docker Compose and Docker.
+  EOS
+  spec.homepage      = "https://github.com/nebulab/dru"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
