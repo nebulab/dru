@@ -6,6 +6,12 @@ module Dru
   class Command
     extend Forwardable
 
+    class MissingContainerError < StandardError
+      def initialize(msg = 'Missing container')
+        super
+      end
+    end
+
     DOCKER_COMPOSE_COMMAND = 'docker-compose'.freeze
 
     attr_accessor :options

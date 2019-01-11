@@ -6,7 +6,10 @@ Usage:
   dru run
 
 Options:
-  -h, [--help], [--no-help]  # Display usage information
+  -h, [--help], [--no-help]        # Display usage information
+  -c, [--container=CONTAINER]      # Container name
+                                   # Default: app
+  -e, [--environment=ENVIRONMENT]  # Environment
 
 Command description...
     OUT

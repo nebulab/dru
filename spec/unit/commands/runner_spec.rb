@@ -1,13 +1,42 @@
 require 'dru/commands/runner'
 
 RSpec.describe Dru::Commands::Runner do
-  it 'executes `run` command successfully' do
-    output = StringIO.new
-    options = {}
-    command = Dru::Commands::Runner.new(options)
+  subject { Dru::Commands::Runner.new(command, options) }
 
-    command.execute(output: output)
+  let(:container_command) { 'command' }
+  let(:command) { [container_command] }
 
-    expect(output.string).to eq("OK\n")
+  let(:container) { 'container' }
+  let(:options) { { container: container } }
+
+  context 'when container is not set' do
+    let(:container) { nil }
+
+    it 'raises the MissingContainerError exception' do
+      expect { subject }.to raise_error(Dru::Command::MissingContainerError)
+    end
+  end
+
+  context 'when container is set' do
+    after do
+      subject.execute(output: StringIO.new)
+    end
+
+    let(:parameters) { ['run', '--rm', '--entrypoint', 'sh -c', container, container_command, tty: true] }
+
+    context 'and command is set' do
+      it 'executes docker-compose run on the container with the given command' do
+        expect(subject).to receive(:run_docker_compose_command).with(*parameters)
+      end
+    end
+
+    context 'and command is not set' do
+      let(:command) { nil }
+      let(:container_command) { '' }
+
+      it 'executes docker-compose run on the container with the given command' do
+        expect(subject).to receive(:run_docker_compose_command).with(*parameters)
+      end
+    end
   end
 end

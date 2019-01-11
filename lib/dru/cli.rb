@@ -35,12 +35,16 @@ module Dru
     desc 'run', 'Command description...'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
-    def runner(*)
+    method_option :container, aliases: '-c', type: :string, default: 'app',
+                              desc: 'Container name'
+    method_option :environment, aliases: '-e', type: :string,
+                                desc: 'Environment'
+    def runner(*command)
       if options[:help]
         invoke :help, ['runner']
       else
         require_relative 'commands/runner'
-        Dru::Commands::Runner.new(options).execute
+        Dru::Commands::Runner.new(command, options).execute
       end
     end
     map %w(run) => :runner
