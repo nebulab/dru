@@ -1,7 +1,7 @@
 require 'dru/commands/runner'
 
 RSpec.describe Dru::Commands::Runner do
-  subject { Dru::Commands::Runner.new(command, options) }
+  subject { Dru::Commands::Runner.new(command: command, options: options) }
 
   let(:container_command) { 'command' }
   let(:command) { [container_command] }

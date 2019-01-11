@@ -1,7 +1,7 @@
 require 'dru/commands/exec'
 
 RSpec.describe Dru::Commands::Exec do
-  subject { Dru::Commands::Exec.new(command, options) }
+  subject { Dru::Commands::Exec.new(command: command, options: options) }
 
   let(:command) { ['command'] }
   let(:container_command) { command }

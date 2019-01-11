@@ -1,7 +1,7 @@
 require 'dru/commands/up'
 
 RSpec.describe Dru::Commands::Up do
-  subject { Dru::Commands::Up.new(options) }
+  subject { Dru::Commands::Up.new(options: options) }
 
   let(:options) { {} }
   let(:container_id) { 'container_id' }
