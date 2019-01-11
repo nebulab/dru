@@ -6,9 +6,12 @@ Usage:
   dru exec
 
 Options:
-  -h, [--help], [--no-help]  # Display usage information
+  -h, [--help], [--no-help]        # Display usage information
+  -c, [--container=CONTAINER]      # Container name
+                                   # Default: app
+  -e, [--environment=ENVIRONMENT]  # Environment
 
-Command description...
+Execute a command in a running container.
     OUT
 
     expect(output).to eq(expected_output)

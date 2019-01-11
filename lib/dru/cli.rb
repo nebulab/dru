@@ -18,15 +18,19 @@ module Dru
     end
     map %w(--version -v) => :version
 
-    desc 'exec', 'Command description...'
+    desc 'exec', 'Execute a command in a running container.'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
-    def exec(*)
+    method_option :container, aliases: '-c', type: :string, default: 'app',
+                              desc: 'Container name'
+    method_option :environment, aliases: '-e', type: :string,
+                                desc: 'Environment'
+    def exec(*command)
       if options[:help]
         invoke :help, ['exec']
       else
         require_relative 'commands/exec'
-        Dru::Commands::Exec.new(options).execute
+        Dru::Commands::Exec.new(command, options).execute
       end
     end
 
