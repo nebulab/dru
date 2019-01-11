@@ -18,15 +18,17 @@ module Dru
     end
     map %w(--version -v) => :version
 
-    desc 'attach', 'Command description...'
+    desc 'attach', 'Attach local standard input, output, and error streams to a running container'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
+    method_option :container, aliases: '-c', type: :string, default: 'app',
+                              desc: 'Container name'
     def attach(*)
       if options[:help]
         invoke :help, ['attach']
       else
         require_relative 'commands/attach'
-        Dru::Commands::Attach.new(options).execute
+        Dru::Commands::Attach.new(options: options).execute
       end
     end
 

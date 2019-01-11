@@ -6,9 +6,11 @@ Usage:
   dru attach
 
 Options:
-  -h, [--help], [--no-help]  # Display usage information
+  -h, [--help], [--no-help]    # Display usage information
+  -c, [--container=CONTAINER]  # Container name
+                               # Default: app
 
-Command description...
+Attach local standard input, output, and error streams to a running container
     OUT
 
     expect(output).to eq(expected_output)
