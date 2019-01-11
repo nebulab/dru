@@ -8,6 +8,12 @@ module Dru
       def execute(input: $stdin, output: $stdout)
         run_docker_compose_command('run', '--rm', '--entrypoint', 'sh -c', container, command, tty: true)
       end
+
+      private
+
+      def command
+        @command.join(' ')
+      end
     end
   end
 end

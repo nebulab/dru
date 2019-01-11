@@ -7,7 +7,7 @@ module Dru
     class Up < Dru::Command
       DOCKER_ATTACH_COMMAND = 'docker attach --detach-keys="ctrl-d"'.freeze
 
-      def initialize(options)
+      def initialize(options:)
         @options = options
       end
 

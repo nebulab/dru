@@ -30,7 +30,7 @@ module Dru
         invoke :help, ['exec']
       else
         require_relative 'commands/exec'
-        Dru::Commands::Exec.new(command, options).execute
+        Dru::Commands::Exec.new(command: command, options: options).execute
       end
     end
 
@@ -44,7 +44,7 @@ module Dru
         invoke :help, ['up']
       else
         require_relative 'commands/up'
-        Dru::Commands::Up.new(options).execute
+        Dru::Commands::Up.new(options: options).execute
       end
     end
 
@@ -60,7 +60,7 @@ module Dru
         invoke :help, ['runner']
       else
         require_relative 'commands/runner'
-        Dru::Commands::Runner.new(command, options).execute
+        Dru::Commands::Runner.new(command: command, options: options).execute
       end
     end
     map %w(run) => :runner

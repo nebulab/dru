@@ -4,7 +4,7 @@ require_relative './command'
 
 module Dru
   class ContainerCommand < Command
-    def initialize(command, options)
+    def initialize(command:, options:)
       raise MissingContainerError unless options[:container]
 
       @options = options
@@ -16,10 +16,6 @@ module Dru
     end
 
     protected
-
-    def command
-      @command.join(' ')
-    end
 
     def container
       options[:container]
