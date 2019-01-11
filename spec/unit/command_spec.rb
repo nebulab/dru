@@ -86,27 +86,45 @@ RSpec.describe Dru::Command do
       end
     end
 
-    context 'when options is set and args is not set' do
-      it 'calls #command with options and #run without arguments' do
-        expect(dru_command).to receive(:command).with(option: true).and_return(command)
-        expect(command).to receive(:run).with(docker_compose_command, *docker_compose_paths)
-        dru_command.run_docker_compose_command(option: true)
-      end
-    end
-
-    context 'when options and args are set' do
-      it 'calls #command with options and #run with arguments' do
-        expect(dru_command).to receive(:command).with(option: true).and_return(command)
-        expect(command).to receive(:run).with(docker_compose_command, *docker_compose_paths, 'ls', '-l')
-        dru_command.run_docker_compose_command('ls', '-l', option: true)
-      end
-    end
-
     context 'when options is not set and args is set' do
       it 'calls #command without options and #run with arguments' do
         expect(dru_command).to receive(:command).with({}).and_return(command)
         expect(command).to receive(:run).with(docker_compose_command, *docker_compose_paths, 'ls', '-l')
         dru_command.run_docker_compose_command('ls', '-l')
+      end
+    end
+
+    context 'when tty option is false' do
+      context 'when options is set and args is not set' do
+        it 'calls #command with options and #run without arguments' do
+          expect(dru_command).to receive(:command).with(tty: false).and_return(command)
+          expect(command).to receive(:run).with(docker_compose_command, *docker_compose_paths)
+          dru_command.run_docker_compose_command(tty: false)
+        end
+      end
+
+      context 'when options and args are set' do
+        it 'calls #command with options and #run with arguments' do
+          expect(dru_command).to receive(:command).with(tty: false).and_return(command)
+          expect(command).to receive(:run).with(docker_compose_command, *docker_compose_paths, 'ls', '-l')
+          dru_command.run_docker_compose_command('ls', '-l', tty: false)
+        end
+      end
+    end
+
+    context 'when tty option is true' do
+      context 'when options is set and args is not set' do
+        it 'calls #command with options and #run without arguments' do
+          expect(dru_command).to receive(:system).with(docker_compose_command, *docker_compose_paths)
+          dru_command.run_docker_compose_command(tty: true)
+        end
+      end
+
+      context 'when options and args are set' do
+        it 'calls #command with options and #run with arguments' do
+          expect(dru_command).to receive(:system).with(docker_compose_command, *docker_compose_paths, 'ls', '-l')
+          dru_command.run_docker_compose_command('ls', '-l', tty: true)
+        end
       end
     end
   end
