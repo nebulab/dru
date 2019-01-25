@@ -6,9 +6,10 @@ Usage:
   dru attach
 
 Options:
-  -h, [--help], [--no-help]    # Display usage information
-  -c, [--container=CONTAINER]  # Container name
-                               # Default: app
+  -h, [--help], [--no-help]        # Display usage information
+  -c, [--container=CONTAINER]      # Container name
+                                   # Default: app
+  -e, [--environment=ENVIRONMENT]  # Environment
 
 Attach local standard input, output, and error streams to a running container
     OUT

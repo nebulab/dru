@@ -72,7 +72,7 @@ RSpec.describe Dru::Command do
   describe '#run_docker_compose_command' do
     let(:command) { double(:command) }
     let(:docker_compose_paths) { ['-f', 'docker-compose.yml'] }
-    let(:docker_compose_command) { described_class::DOCKER_COMPOSE_COMMAND }
+    let(:docker_compose_command) { Dru::DOCKER_COMPOSE_COMMAND }
 
     before do
       allow(dru_command).to receive(:docker_compose_paths).and_return(docker_compose_paths)

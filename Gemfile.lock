@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dru (0.5.2)
+    dru (0.6.0)
       pastel (~> 0.7.2)
       thor (~> 0.20.0)
       tty-color (~> 0.4.2)

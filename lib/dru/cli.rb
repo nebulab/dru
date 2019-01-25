@@ -11,12 +11,44 @@ module Dru
     # Error raised by this runner
     Error = Class.new(StandardError)
 
+    class_option :environment, aliases: '-e', type: :string,
+                                desc: 'Environment'
+
+    default_command :docker_compose
+
+    def self.help(shell, subcommand = false)
+      shell.say `#{DOCKER_COMPOSE_COMMAND} help`
+      shell.say
+
+      shell.say <<-OUT
+These Docker-Compose commands are provided by Dru:
+
+Usage:
+  dru [-e ENV] [docker-compose-options] [COMMAND] [ARGS...]
+  dru -h|--help
+
+      OUT
+
+      super
+    end
+
     desc 'version', 'dru version'
     def version
       require_relative 'version'
-      puts "v#{Dru::VERSION}"
+      shell.say "dru version: #{Dru::VERSION}"
+      shell.say `#{DOCKER_COMPOSE_COMMAND} version`
     end
     map %w(--version -v) => :version
+
+    desc 'docker-compose', 'Run docker-compose', hide: true
+    def docker_compose(*command)
+      if command.empty?
+        invoke :help
+      else
+        require_relative 'commands/docker_compose'
+        Dru::Commands::DockerCompose.new(command: command, options: options).execute
+      end
+    end
 
     desc 'down', 'Stops containers and removes containers, networks, volumes, and images created by `up`.'
     method_option :help, aliases: '-h', type: :boolean,
@@ -49,8 +81,6 @@ module Dru
                          desc: 'Display usage information'
     method_option :container, aliases: '-c', type: :string, default: 'app',
                               desc: 'Container name'
-    method_option :environment, aliases: '-e', type: :string,
-                                desc: 'Environment'
     def exec(*command)
       if options[:help]
         invoke :help, ['exec']
@@ -79,8 +109,6 @@ module Dru
                          desc: 'Display usage information'
     method_option :container, aliases: '-c', type: :string, default: 'app',
                               desc: 'Container name'
-    method_option :environment, aliases: '-e', type: :string,
-                                desc: 'Environment'
     def runner(*command)
       if options[:help]
         invoke :help, ['runner']

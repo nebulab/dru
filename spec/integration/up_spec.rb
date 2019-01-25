@@ -6,8 +6,9 @@ Usage:
   dru up
 
 Options:
-  -h, [--help], [--no-help]      # Display usage information
-  -d, [--detach], [--no-detach]  # Detached mode
+  -h, [--help], [--no-help]        # Display usage information
+  -d, [--detach], [--no-detach]    # Detached mode
+  -e, [--environment=ENVIRONMENT]  # Environment
 
 Build, (re)create, start, and attach to default container
     OUT

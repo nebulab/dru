@@ -6,7 +6,8 @@ Usage:
   dru down
 
 Options:
-  -h, [--help], [--no-help]  # Display usage information
+  -h, [--help], [--no-help]        # Display usage information
+  -e, [--environment=ENVIRONMENT]  # Environment
 
 Stops containers and removes containers, networks, volumes, and images created by `up`.
     OUT

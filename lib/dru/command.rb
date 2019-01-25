@@ -12,8 +12,6 @@ module Dru
       end
     end
 
-    DOCKER_COMPOSE_COMMAND = 'docker-compose'.freeze
-
     attr_accessor :options
 
     def_delegators :command, :run
