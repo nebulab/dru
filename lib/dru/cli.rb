@@ -14,6 +14,8 @@ module Dru
     class_option :environment, aliases: '-e', type: :string,
                                 desc: 'Environment'
 
+    default_command :docker_compose
+
     desc 'version', 'dru version'
     def version
       require_relative 'version'
