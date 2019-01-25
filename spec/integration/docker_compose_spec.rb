@@ -6,7 +6,8 @@ Usage:
   dru docker_compose
 
 Options:
-  -h, [--help], [--no-help]  # Display usage information
+  -h, [--help], [--no-help]        # Display usage information
+  -e, [--environment=ENVIRONMENT]  # Environment
 
 Command description...
     OUT

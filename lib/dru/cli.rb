@@ -11,6 +11,9 @@ module Dru
     # Error raised by this runner
     Error = Class.new(StandardError)
 
+    class_option :environment, aliases: '-e', type: :string,
+                                desc: 'Environment'
+
     desc 'version', 'dru version'
     def version
       require_relative 'version'
@@ -61,8 +64,6 @@ module Dru
                          desc: 'Display usage information'
     method_option :container, aliases: '-c', type: :string, default: 'app',
                               desc: 'Container name'
-    method_option :environment, aliases: '-e', type: :string,
-                                desc: 'Environment'
     def exec(*command)
       if options[:help]
         invoke :help, ['exec']
@@ -91,8 +92,6 @@ module Dru
                          desc: 'Display usage information'
     method_option :container, aliases: '-c', type: :string, default: 'app',
                               desc: 'Container name'
-    method_option :environment, aliases: '-e', type: :string,
-                                desc: 'Environment'
     def runner(*command)
       if options[:help]
         invoke :help, ['runner']
