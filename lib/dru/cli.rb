@@ -16,6 +16,22 @@ module Dru
 
     default_command :docker_compose
 
+    def self.help(shell, subcommand = false)
+      shell.say `#{DOCKER_COMPOSE_COMMAND} help`
+      shell.say
+
+      shell.say <<-OUT
+These Docker-Compose commands are provided by Dru:
+
+Usage:
+  dru [-e ENV] [docker-compose-options] [COMMAND] [ARGS...]
+  dru -h|--help
+
+      OUT
+
+      super
+    end
+
     desc 'version', 'dru version'
     def version
       require_relative 'version'
