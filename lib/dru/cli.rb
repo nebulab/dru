@@ -21,15 +21,13 @@ module Dru
     end
     map %w(--version -v) => :version
 
-    desc 'docker_compose', 'Command description...'
-    method_option :help, aliases: '-h', type: :boolean,
-                         desc: 'Display usage information'
-    def docker_compose(*)
-      if options[:help]
-        invoke :help, ['docker_compose']
+    desc 'docker-compose', 'Run docker-compose', hide: true
+    def docker_compose(*command)
+      if command.empty?
+        invoke :help
       else
         require_relative 'commands/docker_compose'
-        Dru::Commands::DockerCompose.new(options).execute
+        Dru::Commands::DockerCompose.new(command: command, options: options).execute
       end
     end
 

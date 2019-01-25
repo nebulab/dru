@@ -3,13 +3,12 @@ RSpec.describe "`dru docker_compose` command", type: :cli do
     output = `dru help docker_compose`
     expected_output = <<-OUT
 Usage:
-  dru docker_compose
+  dru docker-compose
 
 Options:
-  -h, [--help], [--no-help]        # Display usage information
   -e, [--environment=ENVIRONMENT]  # Environment
 
-Command description...
+Run docker-compose
     OUT
 
     expect(output).to eq(expected_output)
