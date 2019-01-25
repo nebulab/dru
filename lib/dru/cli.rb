@@ -35,7 +35,8 @@ Usage:
     desc 'version', 'dru version'
     def version
       require_relative 'version'
-      puts "v#{Dru::VERSION}"
+      shell.say "dru version: #{Dru::VERSION}"
+      shell.say `#{DOCKER_COMPOSE_COMMAND} version`
     end
     map %w(--version -v) => :version
 
