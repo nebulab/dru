@@ -18,6 +18,18 @@ module Dru
     end
     map %w(--version -v) => :version
 
+    desc 'docker_compose', 'Command description...'
+    method_option :help, aliases: '-h', type: :boolean,
+                         desc: 'Display usage information'
+    def docker_compose(*)
+      if options[:help]
+        invoke :help, ['docker_compose']
+      else
+        require_relative 'commands/docker_compose'
+        Dru::Commands::DockerCompose.new(options).execute
+      end
+    end
+
     desc 'down', 'Stops containers and removes containers, networks, volumes, and images created by `up`.'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
