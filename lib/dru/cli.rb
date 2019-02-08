@@ -50,18 +50,6 @@ Usage:
       end
     end
 
-    desc 'down', 'Stops containers and removes containers, networks, volumes, and images created by `up`.'
-    method_option :help, aliases: '-h', type: :boolean,
-                         desc: 'Display usage information'
-    def down(*)
-      if options[:help]
-        invoke :help, ['down']
-      else
-        require_relative 'commands/down'
-        Dru::Commands::Down.new.execute
-      end
-    end
-
     desc 'attach', 'Attach local standard input, output, and error streams to a running container'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'

@@ -1,5 +1,4 @@
 require 'dru/commands/attach'
-require 'dru/commands/down'
 
 RSpec.describe Dru::Commands::Attach do
   subject { Dru::Commands::Attach.new(options: options) }
@@ -18,11 +17,9 @@ RSpec.describe Dru::Commands::Attach do
   context 'when container is set' do
     let(:container_id) { 'container_id' }
     let(:docker_attach_command) { "#{described_class::DOCKER_ATTACH_COMMAND} #{container_id}" }
-    let(:down_command) { double(:down_command, execute: nil) }
 
     before do
       allow(subject).to receive(:container_name_to_id).and_return(container_id)
-      allow(Dru::Commands::Down).to receive(:new).and_return(down_command)
     end
 
     after do
