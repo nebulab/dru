@@ -76,20 +76,6 @@ Usage:
       end
     end
 
-    desc 'exec', 'Execute a command in a running container.'
-    method_option :help, aliases: '-h', type: :boolean,
-                         desc: 'Display usage information'
-    method_option :container, aliases: '-c', type: :string, default: 'app',
-                              desc: 'Container name'
-    def exec(*command)
-      if options[:help]
-        invoke :help, ['exec']
-      else
-        require_relative 'commands/exec'
-        Dru::Commands::Exec.new(command: command, options: options).execute
-      end
-    end
-
     desc 'up', 'Build, (re)create, start, and attach to default container'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
