@@ -16,7 +16,7 @@ module Dru
 
     default_command :docker_compose
 
-    stop_on_unknown_option! :attach, :runner, :up
+    stop_on_unknown_option! :attach, :up
 
     def self.help(shell, subcommand = false)
       shell.say `#{DOCKER_COMPOSE_COMMAND} help`
@@ -79,20 +79,5 @@ Usage:
         Dru::Commands::Up.new(options: options).execute
       end
     end
-
-    desc 'run', 'Command description...'
-    method_option :help, aliases: '-h', type: :boolean,
-                         desc: 'Display usage information'
-    method_option :container, aliases: '-c', type: :string, default: 'app',
-                              desc: 'Container name'
-    def runner(*command)
-      if options[:help]
-        invoke :help, ['runner']
-      else
-        require_relative 'commands/runner'
-        Dru::Commands::Runner.new(command: command, options: options).execute
-      end
-    end
-    map %w(run) => :runner
   end
 end
