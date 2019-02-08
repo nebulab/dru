@@ -6,12 +6,12 @@ module Dru
   module Commands
     class Runner < Dru::ContainerCommand
       def execute(input: $stdin, output: $stdout)
-        run_docker_compose_command('run', '--rm', '--entrypoint', 'sh -c', container, command, tty: true)
+        run_docker_compose_command('run', '--rm', '--entrypoint', 'sh -c', container, commands, tty: true)
       end
 
       private
 
-      def command
+      def commands
         @command.join(' ')
       end
     end
