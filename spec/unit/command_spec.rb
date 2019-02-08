@@ -112,6 +112,13 @@ RSpec.describe Dru::Command do
     end
   end
 
+  describe '#run_docker_command' do
+    it 'calls #run with given arguments' do
+      expect(dru_command).to receive(:run).with(Dru::DOCKER_COMMAND, 'attach', 'container', printer: :null)
+      dru_command.run_docker_command('attach', 'container', printer: :null)
+    end
+  end
+
   describe '#container_name_to_id' do
     let(:result) { TTY::Command::Result.new(0, "out\n", 'err') }
     let(:stripped_output) { 'out' }

@@ -160,6 +160,10 @@ module Dru
       run(DOCKER_COMPOSE_COMMAND, *docker_compose_paths, *command, **options)
     end
 
+    def run_docker_command(*command, **options)
+      run(DOCKER_COMMAND, *command, **options)
+    end
+
     def container_name_to_id(container_name)
       run_docker_compose_command('ps', '-q', container_name, only_output_on_error: true).out.strip
     end
