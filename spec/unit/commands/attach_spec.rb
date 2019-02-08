@@ -32,19 +32,5 @@ RSpec.describe Dru::Commands::Attach do
     it "executes docker attach on the container" do
       expect(subject).to receive(:system).with(docker_attach_command)
     end
-
-    context 'when ctrl-d is pressed' do
-      it "doesn't execute docker-compose down" do
-        allow(subject).to receive(:system).with(docker_attach_command).and_return(false)
-        expect(down_command).not_to receive(:execute)
-      end
-    end
-
-    context 'when ctrl-c is pressed' do
-      it 'executes docker-compose down' do
-        allow(subject).to receive(:system).with(docker_attach_command).and_return(true)
-        expect(down_command).to receive(:execute)
-      end
-    end
   end
 end
