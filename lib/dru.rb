@@ -7,7 +7,7 @@ module Dru
   DOCKER_COMPOSE_COMMAND = 'docker-compose'.freeze
   DOCKER_COMPOSE_COMMANDS = %w[build bundle config create events exec images kill
                                logs pause port ps pull push restart rm scale
-                               start stop top unpause]
+                               start stop top unpause down]
 
   def self.config
     Config.instance.tap { |instance| instance.config_file_path = DRUCONFIG }
