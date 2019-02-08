@@ -3,15 +3,15 @@ RSpec.describe "`dru attach` command", type: :cli do
     output = `dru help attach`
     expected_output = <<-OUT
 Usage:
-  dru attach
+  dru attach [OPTIONS] SERVICE
 
 Options:
   -h, [--help], [--no-help]        # Display usage information
-  -c, [--container=CONTAINER]      # Container name
-                                   # Default: app
+      [--detach-keys=DETACH_KEYS]  # Override the key sequence for detaching a container
+                                   # Default: ctrl-d
   -e, [--environment=ENVIRONMENT]  # Environment
 
-Attach local standard input, output, and error streams to a running container
+Attach local standard input, output, and error streams to a running service
     OUT
 
     expect(output).to eq(expected_output)

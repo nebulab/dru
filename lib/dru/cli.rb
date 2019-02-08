@@ -16,6 +16,8 @@ module Dru
 
     default_command :docker_compose
 
+    stop_on_unknown_option! :attach, :runner, :up
+
     def self.help(shell, subcommand = false)
       shell.say `#{DOCKER_COMPOSE_COMMAND} help`
       shell.say
@@ -50,17 +52,17 @@ Usage:
       end
     end
 
-    desc 'attach', 'Attach local standard input, output, and error streams to a running container'
+    desc 'attach [OPTIONS] SERVICE', 'Attach local standard input, output, and error streams to a running service'
     method_option :help, aliases: '-h', type: :boolean,
                          desc: 'Display usage information'
-    method_option :container, aliases: '-c', type: :string, default: 'app',
-                              desc: 'Container name'
-    def attach(*)
-      if options[:help]
+    method_option :detach_keys, type: :string, default: 'ctrl-d',
+                         desc: 'Override the key sequence for detaching a container'
+    def attach(service = nil)
+      if options[:help] || service.nil?
         invoke :help, ['attach']
       else
         require_relative 'commands/attach'
-        Dru::Commands::Attach.new(options: options).execute
+        Dru::Commands::Attach.new(service: service, options: options).execute
       end
     end
 
