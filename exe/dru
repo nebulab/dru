@@ -11,7 +11,7 @@ Signal.trap('INT') do
 end
 
 begin
-  Dru::CLI.start(Dru::Argv.new.parse)
+  Dru::CLI.start(Dru::Argv.parse)
 rescue Dru::CLI::Error => err
   puts "ERROR: #{err.message}"
   exit 1
