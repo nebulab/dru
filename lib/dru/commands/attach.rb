@@ -5,7 +5,7 @@ require_relative '../container_command'
 module Dru
   module Commands
     class Attach < Dru::ContainerCommand
-      DOCKER_ATTACH_COMMAND = 'docker attach --detach-keys="ctrl-d"'.freeze
+      ATTACH_COMMAND = %w[attach --detach-keys=ctrl-d]
 
       def execute(input: $stdin, output: $stdout)
         attach_to_container
@@ -14,7 +14,7 @@ module Dru
       private
 
       def attach_to_container
-        system "#{DOCKER_ATTACH_COMMAND} #{container_name_to_id(container)}"
+        run_docker_command(*ATTACH_COMMAND, container_name_to_id(container))
       end
     end
   end

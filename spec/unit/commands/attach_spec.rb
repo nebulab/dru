@@ -16,7 +16,6 @@ RSpec.describe Dru::Commands::Attach do
 
   context 'when container is set' do
     let(:container_id) { 'container_id' }
-    let(:docker_attach_command) { "#{described_class::DOCKER_ATTACH_COMMAND} #{container_id}" }
 
     before do
       allow(subject).to receive(:container_name_to_id).and_return(container_id)
@@ -27,7 +26,7 @@ RSpec.describe Dru::Commands::Attach do
     end
 
     it "executes docker attach on the container" do
-      expect(subject).to receive(:system).with(docker_attach_command)
+      expect(subject).to receive(:run_docker_command).with(*described_class::ATTACH_COMMAND, container_id)
     end
   end
 end
