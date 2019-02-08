@@ -1,4 +1,5 @@
 require 'dru/command'
+require 'tty/command/result'
 
 RSpec.describe Dru::Command do
   subject(:dru_command) { described_class.new }
@@ -49,7 +50,7 @@ RSpec.describe Dru::Command do
   describe '#docker_compose_paths' do
     subject { dru_command.docker_compose_paths }
 
-    let(:default_path) { '/a/path' } 
+    let(:default_path) { '/a/path' }
 
     before do
       allow(dru_command).to receive(:default_docker_compose).and_return(default_path)
@@ -69,77 +70,55 @@ RSpec.describe Dru::Command do
     end
   end
 
+  describe '#run' do
+    subject { dru_command.run(command, options) }
+
+    let(:tty_command) { double(:tty_command, run!: result) }
+    let(:result) { TTY::Command::Result.new(0, 'out', 'err') }
+    let(:command) { 'ls -l' }
+    let(:options) { Hash[color: true, printer: :null] }
+
+    it 'calls TTY::Command#run! with command and options' do
+      allow(dru_command).to receive(:command).and_return(tty_command)
+      expect(tty_command).to receive(:run!).with(command, options.merge(in: '/dev/tty'))
+      subject
+    end
+
+    context 'when command exit code is zero' do
+      it 'returns a TTY::Command::Result object' do
+        is_expected.to be_a(TTY::Command::Result)
+      end
+    end
+
+    context 'when command exit code is non-zero' do
+      let(:command) { 'ls -ERROR' }
+
+      it 'raises Dru::CLI::Error' do
+        expect { subject }.to raise_error(Dru::CLI::Error)
+      end
+    end
+  end
+
   describe '#run_docker_compose_command' do
-    let(:command) { double(:command) }
     let(:docker_compose_paths) { ['-f', 'docker-compose.yml'] }
-    let(:docker_compose_command) { Dru::DOCKER_COMPOSE_COMMAND }
 
     before do
       allow(dru_command).to receive(:docker_compose_paths).and_return(docker_compose_paths)
     end
 
-    context 'when options and args are not set' do
-      it 'calls #command without options and #run without arguments' do
-        expect(dru_command).to receive(:command).with({}).and_return(command)
-        expect(command).to receive(:run).with(docker_compose_command, *docker_compose_paths)
-        dru_command.run_docker_compose_command
-      end
-    end
-
-    context 'when options is not set and args is set' do
-      it 'calls #command without options and #run with arguments' do
-        expect(dru_command).to receive(:command).with({}).and_return(command)
-        expect(command).to receive(:run).with(docker_compose_command, *docker_compose_paths, 'ls', '-l')
-        dru_command.run_docker_compose_command('ls', '-l')
-      end
-    end
-
-    context 'when tty option is false' do
-      context 'when options is set and args is not set' do
-        it 'calls #command with options and #run without arguments' do
-          expect(dru_command).to receive(:command).with(tty: false).and_return(command)
-          expect(command).to receive(:run).with(docker_compose_command, *docker_compose_paths)
-          dru_command.run_docker_compose_command(tty: false)
-        end
-      end
-
-      context 'when options and args are set' do
-        it 'calls #command with options and #run with arguments' do
-          expect(dru_command).to receive(:command).with(tty: false).and_return(command)
-          expect(command).to receive(:run).with(docker_compose_command, *docker_compose_paths, 'ls', '-l')
-          dru_command.run_docker_compose_command('ls', '-l', tty: false)
-        end
-      end
-    end
-
-    context 'when tty option is true' do
-      context 'when options is set and args is not set' do
-        it 'calls #command with options and #run without arguments' do
-          expect(dru_command).to receive(:system).with(docker_compose_command, *docker_compose_paths)
-          dru_command.run_docker_compose_command(tty: true)
-        end
-      end
-
-      context 'when options and args are set' do
-        it 'calls #command with options and #run with arguments' do
-          expect(dru_command).to receive(:system).with(docker_compose_command, *docker_compose_paths, 'ls', '-l')
-          dru_command.run_docker_compose_command('ls', '-l', tty: true)
-        end
-      end
+    it 'calls #run with given arguments' do
+      expect(dru_command).to receive(:run).with(Dru::DOCKER_COMPOSE_COMMAND, *docker_compose_paths, 'ps', '--services', printer: :null)
+      dru_command.run_docker_compose_command('ps', '--services', printer: :null)
     end
   end
 
   describe '#container_name_to_id' do
-    let(:result) { %w[output error] }
-
-    it 'calls #run_docker_compose_command with default params' do
-      expect(dru_command).to receive(:run_docker_compose_command).with('ps', '-q', 'app', printer: :null).and_return(result)
-      expect(dru_command.container_name_to_id).to eq('output')
-    end
+    let(:result) { TTY::Command::Result.new(0, "out\n", 'err') }
+    let(:stripped_output) { 'out' }
 
     it 'calls #run_docker_compose_command with default params and custom container name' do
-      expect(dru_command).to receive(:run_docker_compose_command).with('ps', '-q', 'db', printer: :null).and_return(result)
-      expect(dru_command.container_name_to_id('db')).to eq('output')
+      expect(dru_command).to receive(:run_docker_compose_command).with('ps', '-q', 'db', only_output_on_error: true).and_return(result)
+      expect(dru_command.container_name_to_id('db')).to eq(stripped_output)
     end
   end
 end

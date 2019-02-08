@@ -14,8 +14,6 @@ module Dru
 
     attr_accessor :options
 
-    def_delegators :command, :run
-
     # Execute this command
     #
     # @api public
@@ -152,16 +150,18 @@ module Dru
       docker_compose_default_path + docker_compose_environment_path
     end
 
-    def run_docker_compose_command(*args, **options)
-      if options[:tty]
-        system(DOCKER_COMPOSE_COMMAND, *docker_compose_paths, *args)
-      else
-        command(options).run(DOCKER_COMPOSE_COMMAND, *docker_compose_paths, *args)
+    def run(*command, **options)
+      command(options).run!(*command, { in: '/dev/tty' }.merge(options)).tap do |result|
+        raise Dru::CLI::Error, result.err unless result.success?
       end
     end
 
-    def container_name_to_id(container_name = 'app')
-      run_docker_compose_command('ps', '-q', container_name, printer: :null).first
+    def run_docker_compose_command(*command, **options)
+      run(DOCKER_COMPOSE_COMMAND, *docker_compose_paths, *command, **options)
+    end
+
+    def container_name_to_id(container_name)
+      run_docker_compose_command('ps', '-q', container_name, only_output_on_error: true).out.strip
     end
 
     private
