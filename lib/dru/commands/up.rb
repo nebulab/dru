@@ -24,7 +24,7 @@ module Dru
       end
 
       def attach_to_default_container
-        Attach.new(options: { container: 'app' }).execute
+        Attach.new(service: 'app', options: { detach_keys: 'ctrl-d' }).execute
       end
     end
   end
