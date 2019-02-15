@@ -6,13 +6,11 @@ $:.unshift(lib_path) if !$:.include?(lib_path)
 require 'dru'
 
 Signal.trap('INT') do
-  warn("\n#{caller.join("\n")}: interrupted")
   exit(1)
 end
 
 begin
   Dru::CLI.start(Dru::Argv.parse)
-rescue Dru::CLI::Error => err
-  puts "ERROR: #{err.message}"
+rescue Dru::CLI::Error
   exit 1
 end

@@ -151,7 +151,7 @@ module Dru
     end
 
     def run(*command, **options)
-      command(options).run!(*command, { in: '/dev/tty' }.merge(options)).tap do |result|
+      command(options).run!(*command, { in: '/dev/tty', err: '/dev/tty' }.merge(options)).tap do |result|
         raise Dru::CLI::Error, result.err unless result.success?
       end
     end
