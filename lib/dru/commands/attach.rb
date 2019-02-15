@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../container_command'
+require_relative '../command'
 
 module Dru
   module Commands
