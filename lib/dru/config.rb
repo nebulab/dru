@@ -11,7 +11,7 @@ module Dru
     def_delegators :configs, :docker_projects_folder
 
     DEFAULT = {
-      'docker_projects_folder' => "~/.dru" 
+      'docker_projects_folder' => "~/.dru"
     }.freeze
 
     attr_reader :config_file_path
@@ -29,6 +29,7 @@ module Dru
 
     def user_configs
       return {} unless config_file_path && File.file?(config_file_path)
+
       YAML.load_file(config_file_path) || {}
     end
   end
