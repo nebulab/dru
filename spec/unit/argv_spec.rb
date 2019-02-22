@@ -19,10 +19,24 @@ RSpec.describe Dru::Argv do
 
     context 'when argv does not contain a docker compose command' do
       context 'and does not contain a dru command' do
-        let(:argv) { ['-e', 'test', 'unknown-command'] }
+        context 'and does not contain an alias command' do
+          let(:argv) { ['-e', 'test', 'unknown-command'] }
 
-        it 'does not change argv attribute' do
-          is_expected.to eq(argv)
+          it 'does not change argv attribute' do
+            is_expected.to eq(argv)
+          end
+        end
+
+        context 'and contains an alias command' do
+          let(:argv) { ['-e', 'test', 'alias-command'] }
+          let(:dru_alias) { OpenStruct.new({ 'alias-command' => 'run alias command' }) }
+          let(:expected_argv) { ['-e', 'test', '--', 'run', 'alias', 'command'] }
+
+          before do
+            allow(Dru).to receive(:config).and_return(double(:config, alias: dru_alias))
+          end
+
+          it { is_expected.to eq(expected_argv) }
         end
       end
 
