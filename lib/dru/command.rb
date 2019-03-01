@@ -34,16 +34,6 @@ module Dru
       TTY::Command.new({ printer: :quiet, uuid: false }.merge(options))
     end
 
-    # File manipulation utility methods
-    #
-    # @see http://www.rubydoc.info/gems/tty-file
-    #
-    # @api public
-    def generator
-      require 'tty-file'
-      TTY::File
-    end
-
     # The unix which utility
     #
     # @see http://www.rubydoc.info/gems/tty-which
