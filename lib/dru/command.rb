@@ -44,16 +44,6 @@ module Dru
       TTY::File
     end
 
-    # Terminal platform and OS properties
-    #
-    # @see http://www.rubydoc.info/gems/tty-pager
-    #
-    # @api public
-    def platform
-      require 'tty-platform'
-      TTY::Platform.new
-    end
-
     # The unix which utility
     #
     # @see http://www.rubydoc.info/gems/tty-which

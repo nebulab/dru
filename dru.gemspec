@@ -38,7 +38,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "tty-command", "~> 0.8.0"
   spec.add_dependency "tty-config", "~> 0.2.0"
   spec.add_dependency "tty-file", "~> 0.6.0"
-  spec.add_dependency "tty-platform", "~> 0.1.0"
   spec.add_dependency "tty-which", "~> 0.3.0"
   spec.add_dependency "pastel", "~> 0.7.2"
   spec.add_dependency "thor", "~> 0.20.0"
