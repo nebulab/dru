@@ -54,16 +54,6 @@ module Dru
       TTY::File
     end
 
-    # Terminal output paging
-    #
-    # @see http://www.rubydoc.info/gems/tty-pager
-    #
-    # @api public
-    def pager(**options)
-      require 'tty-pager'
-      TTY::Pager.new(options)
-    end
-
     # Terminal platform and OS properties
     #
     # @see http://www.rubydoc.info/gems/tty-pager
