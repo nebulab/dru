@@ -84,16 +84,6 @@ module Dru
       TTY::Prompt.new(options)
     end
 
-    # Get terminal screen properties
-    #
-    # @see http://www.rubydoc.info/gems/tty-screen
-    #
-    # @api public
-    def screen
-      require 'tty-screen'
-      TTY::Screen
-    end
-
     # The unix which utility
     #
     # @see http://www.rubydoc.info/gems/tty-which

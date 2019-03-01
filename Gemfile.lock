@@ -13,7 +13,6 @@ PATH
       tty-pager (~> 0.11.0)
       tty-platform (~> 0.1.0)
       tty-prompt (~> 0.16.1)
-      tty-screen (~> 0.6.4)
       tty-spinner (~> 0.8.0)
       tty-table (~> 0.10.0)
       tty-tree (~> 0.1.0)
