@@ -1,4 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/dru.svg)](https://badge.fury.io/rb/dru)
+[![CircleCI](https://circleci.com/gh/nebulab/dru/tree/master.svg?style=svg)](https://circleci.com/gh/nebulab/dru/tree/master)
 
 # Dru
 
