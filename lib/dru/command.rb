@@ -34,16 +34,6 @@ module Dru
       TTY::Command.new({ printer: :quiet, uuid: false }.merge(options))
     end
 
-    # The cursor movement
-    #
-    # @see http://www.rubydoc.info/gems/tty-cursor
-    #
-    # @api public
-    def cursor
-      require 'tty-cursor'
-      TTY::Cursor
-    end
-
     # Open a file or text in the user's preferred editor
     #
     # @see http://www.rubydoc.info/gems/tty-editor
