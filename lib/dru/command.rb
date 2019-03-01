@@ -34,16 +34,6 @@ module Dru
       TTY::Command.new({ printer: :quiet, uuid: false }.merge(options))
     end
 
-    # Open a file or text in the user's preferred editor
-    #
-    # @see http://www.rubydoc.info/gems/tty-editor
-    #
-    # @api public
-    def editor
-      require 'tty-editor'
-      TTY::Editor
-    end
-
     # File manipulation utility methods
     #
     # @see http://www.rubydoc.info/gems/tty-file
