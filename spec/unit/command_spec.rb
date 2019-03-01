@@ -80,7 +80,7 @@ RSpec.describe Dru::Command do
 
     it 'calls TTY::Command#run! with command and options' do
       allow(dru_command).to receive(:command).and_return(tty_command)
-      expect(tty_command).to receive(:run!).with(command, options.merge(in: '/dev/tty'))
+      expect(tty_command).to receive(:run!).with(command, options.merge(in: '/dev/tty', err: '/dev/tty'))
       subject
     end
 
