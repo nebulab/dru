@@ -64,16 +64,6 @@ module Dru
       TTY::Platform.new
     end
 
-    # The interactive prompt
-    #
-    # @see http://www.rubydoc.info/gems/tty-prompt
-    #
-    # @api public
-    def prompt(**options)
-      require 'tty-prompt'
-      TTY::Prompt.new(options)
-    end
-
     # The unix which utility
     #
     # @see http://www.rubydoc.info/gems/tty-which

@@ -9,7 +9,6 @@ PATH
       tty-editor (~> 0.4.0)
       tty-file (~> 0.6.0)
       tty-platform (~> 0.1.0)
-      tty-prompt (~> 0.16.1)
       tty-which (~> 0.3.0)
 
 GEM
