@@ -6,12 +6,6 @@ module Dru
   class Command
     extend Forwardable
 
-    class MissingContainerError < StandardError
-      def initialize(msg = 'Missing container')
-        super
-      end
-    end
-
     attr_accessor :options
 
     # Execute this command
