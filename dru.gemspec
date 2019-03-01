@@ -35,7 +35,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.extensions    = ["ext/dru/extconf.rb"]
 
-  spec.add_dependency "tty-color", "~> 0.4.2"
   spec.add_dependency "tty-command", "~> 0.8.0"
   spec.add_dependency "tty-config", "~> 0.2.0"
   spec.add_dependency "tty-cursor", "~> 0.5.0"
