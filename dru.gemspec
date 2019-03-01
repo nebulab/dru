@@ -42,7 +42,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "tty-pager", "~> 0.11.0"
   spec.add_dependency "tty-platform", "~> 0.1.0"
   spec.add_dependency "tty-prompt", "~> 0.16.1"
-  spec.add_dependency "tty-tree", "~> 0.1.0"
   spec.add_dependency "tty-which", "~> 0.3.0"
   spec.add_dependency "pastel", "~> 0.7.2"
   spec.add_dependency "thor", "~> 0.20.0"
