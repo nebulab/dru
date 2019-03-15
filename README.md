@@ -1,4 +1,7 @@
 [![Gem Version](https://badge.fury.io/rb/dru.svg)](https://badge.fury.io/rb/dru)
+[![CircleCI](https://circleci.com/gh/nebulab/dru/tree/master.svg?style=svg)](https://circleci.com/gh/nebulab/dru/tree/master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/9049d097bf908467eb85/maintainability)](https://codeclimate.com/github/nebulab/dru/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/9049d097bf908467eb85/test_coverage)](https://codeclimate.com/github/nebulab/dru/test_coverage)
 
 # Dru
 

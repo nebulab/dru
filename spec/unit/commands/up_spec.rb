@@ -1,5 +1,5 @@
 require 'dru/commands/up'
-require 'dru/commands/Attach'
+require 'dru/commands/attach'
 
 RSpec.describe Dru::Commands::Up do
   subject { Dru::Commands::Up.new(options: options) }
