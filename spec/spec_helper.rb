@@ -1,3 +1,7 @@
+# Start SimpleCov
+require "simplecov"
+SimpleCov.start
+
 require "bundler/setup"
 require "dru"
 

@@ -3,35 +3,75 @@
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
 version: 2.1
+
+workflows:
+  version: 2
+
+  commit:
+     jobs:
+       - build
+       - tests:
+           requires:
+             - build
+       - upload-coverage:
+          requires:
+             - tests
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/ruby:2.5.1
+
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/ruby:2.5.1
+    <<: *defaults
+    steps:
+      - run:
+          name: Download cc-test-reporter
+          command: |
+            mkdir -p tmp/
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+            chmod +x ./tmp/cc-test-reporter
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - cc-test-reporter
 
-    working_directory: ~/repo
-
+  tests:
+    <<: *defaults
     steps:
       - checkout
-
+      - attach_workspace:
+          at: ~/repo/tmp
       # Download and cache dependencies
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-
       - run:
           name: Install dependencies
           command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
-
       - save_cache:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-
-      # run tests!
       - run:
           name: Run tests
-          command: bundle exec rspec
+          command: |
+            bundle exec rspec
+            ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.json coverage/.resultset.json
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - codeclimate.json
+  upload-coverage:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo/tmp
+      - run:
+          name: Upload coverage results to Code Climate
+          command: |
+            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.json
