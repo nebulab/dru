@@ -6,12 +6,6 @@ module Dru
   class Command
     extend Forwardable
 
-    class MissingContainerError < StandardError
-      def initialize(msg = 'Missing container')
-        super
-      end
-    end
-
     attr_accessor :options
 
     # Execute this command
@@ -32,76 +26,6 @@ module Dru
     def command(**options)
       require 'tty-command'
       TTY::Command.new({ printer: :quiet, uuid: false }.merge(options))
-    end
-
-    # The cursor movement
-    #
-    # @see http://www.rubydoc.info/gems/tty-cursor
-    #
-    # @api public
-    def cursor
-      require 'tty-cursor'
-      TTY::Cursor
-    end
-
-    # Open a file or text in the user's preferred editor
-    #
-    # @see http://www.rubydoc.info/gems/tty-editor
-    #
-    # @api public
-    def editor
-      require 'tty-editor'
-      TTY::Editor
-    end
-
-    # File manipulation utility methods
-    #
-    # @see http://www.rubydoc.info/gems/tty-file
-    #
-    # @api public
-    def generator
-      require 'tty-file'
-      TTY::File
-    end
-
-    # Terminal output paging
-    #
-    # @see http://www.rubydoc.info/gems/tty-pager
-    #
-    # @api public
-    def pager(**options)
-      require 'tty-pager'
-      TTY::Pager.new(options)
-    end
-
-    # Terminal platform and OS properties
-    #
-    # @see http://www.rubydoc.info/gems/tty-pager
-    #
-    # @api public
-    def platform
-      require 'tty-platform'
-      TTY::Platform.new
-    end
-
-    # The interactive prompt
-    #
-    # @see http://www.rubydoc.info/gems/tty-prompt
-    #
-    # @api public
-    def prompt(**options)
-      require 'tty-prompt'
-      TTY::Prompt.new(options)
-    end
-
-    # Get terminal screen properties
-    #
-    # @see http://www.rubydoc.info/gems/tty-screen
-    #
-    # @api public
-    def screen
-      require 'tty-screen'
-      TTY::Screen
     end
 
     # The unix which utility
