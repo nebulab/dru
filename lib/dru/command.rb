@@ -64,14 +64,15 @@ module Dru
       File.join(project_configuration_path, 'docker-compose.yml')
     end
 
-    def environment_docker_compose
-      return unless environment
-
-      File.join(project_configuration_path, "docker-compose.#{environment}.yml")
+    def override_docker_compose
+      override = environment || 'override'
+      docker_compose_file = File.join(project_configuration_path, "docker-compose.#{override}.yml")
+      return unless File.exist?(docker_compose_file)
+      docker_compose_file
     end
 
     def docker_compose_paths
-      docker_compose_default_path + docker_compose_environment_path
+      docker_compose_default_path + docker_compose_override_path
     end
 
     def run(*command, **options)
@@ -98,10 +99,10 @@ module Dru
       ['-f', default_docker_compose]
     end
 
-    def docker_compose_environment_path
-      return [] unless environment_docker_compose
+    def docker_compose_override_path
+      return [] unless override_docker_compose
 
-      ['-f', environment_docker_compose]
+      ['-f', override_docker_compose]
     end
   end
 end

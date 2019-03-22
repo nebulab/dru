@@ -31,19 +31,39 @@ RSpec.describe Dru::Command do
     end
   end
 
-  describe '#environment_docker_compose' do
-    subject { dru_command.environment_docker_compose }
+  describe '#override_docker_compose' do
+    subject { dru_command.override_docker_compose }
 
     context 'when environment option is not set' do
       let(:environment) { nil }
 
-      it { is_expected.to be_nil }
+      context 'and the docker-compose.override.yml file exists' do
+        before do
+          allow(File).to receive(:exist?).and_return(true)
+        end
+
+        it { is_expected.to eq("#{dru_command.project_configuration_path}/docker-compose.override.yml") }
+      end
+
+      context 'and the docker-compose.override.yml file doesn\'t exist' do
+        it { is_expected.to be_nil }
+      end
     end
 
     context 'when environment option is set' do
       let(:environment) { 'test' }
 
-      it { is_expected.to eq("#{dru_command.project_configuration_path}/docker-compose.#{environment}.yml") }
+      context 'and the docker-compose.test.yml file exists' do
+        before do
+          allow(File).to receive(:exist?).and_return(true)
+        end
+
+        it { is_expected.to eq("#{dru_command.project_configuration_path}/docker-compose.#{environment}.yml") }
+      end
+
+      context 'and the docker-compose.test.yml file doesn\'t exist' do
+        it { is_expected.to be_nil }
+      end
     end
   end
 
@@ -54,19 +74,19 @@ RSpec.describe Dru::Command do
 
     before do
       allow(dru_command).to receive(:default_docker_compose).and_return(default_path)
-      allow(dru_command).to receive(:environment_docker_compose).and_return(environment_path)
+      allow(dru_command).to receive(:override_docker_compose).and_return(override_path)
     end
 
-    context 'when environment option is not set' do
-      let(:environment_path) { nil }
+    context 'when override file doesn\'t exist' do
+      let(:override_path) { nil }
 
       it { is_expected.to eq(['-f', default_path]) }
     end
 
-    context 'when environment option is set' do
-      let(:environment_path) { '/an/environment/path' }
+    context 'when override file exists' do
+      let(:override_path) { '/an/override/path' }
 
-      it { is_expected.to eq(['-f', default_path, '-f', environment_path]) }
+      it { is_expected.to eq(['-f', default_path, '-f', override_path]) }
     end
   end
 
