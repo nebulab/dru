@@ -1,37 +1,36 @@
-require 'singleton'
-require 'yaml'
-require 'forwardable'
-require 'json'
+require 'tty-config'
+require 'ostruct'
 
 module Dru
   class Config
-    extend Forwardable
-    include Singleton
+    attr_reader :config
 
-    def_delegators :configs, :docker_projects_folder, :alias
+    DRUCONFIG = '.druconfig'.freeze
+    DOCKER_PROJECTS_FOLDER = "#{Dir.home}/.dru".freeze
+    ALIAS = {}.freeze
 
-    DEFAULT = {
-      'docker_projects_folder' => "~/.dru",
-      'alias' => {}
-    }.freeze
+    def initialize(druconfig: DRUCONFIG,
+                   docker_projects_folder: DOCKER_PROJECTS_FOLDER)
+      @config = TTY::Config.new
+      @config.filename = druconfig
+      @config.append_path Dir.home
 
-    attr_reader :config_file_path
+      begin
+        @config.read(format: :yaml) if @config.exist?
+      rescue TypeError
+        # Do nothing in case the file exists but is empty
+      end
 
-    def config_file_path=(config_file_path)
-      @configs = nil
-      @config_file_path = config_file_path
+      @config.set_if_empty :docker_projects_folder, value: docker_projects_folder
+      @config.set_if_empty :alias, value: ALIAS
     end
 
-    private
-
-    def configs
-      @configs ||= JSON.parse(DEFAULT.merge(user_configs).to_json, object_class: OpenStruct)
+    def docker_projects_folder
+      @config.fetch(:docker_projects_folder)
     end
 
-    def user_configs
-      return {} unless config_file_path && File.file?(config_file_path)
-
-      YAML.load_file(config_file_path) || {}
+    def alias
+      OpenStruct.new(@config.fetch(:alias))
     end
   end
 end
