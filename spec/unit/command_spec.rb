@@ -101,13 +101,15 @@ RSpec.describe Dru::Command do
 
   describe '#run_docker_compose_command' do
     let(:docker_compose_paths) { ['-f', 'docker-compose.yml'] }
+    let(:docker_compose_project_name) { 'app' }
 
     before do
       allow(dru_command).to receive(:docker_compose_paths).and_return(docker_compose_paths)
+      allow(dru_command).to receive(:docker_compose_project_name).and_return(docker_compose_project_name)
     end
 
     it 'calls #run with given arguments' do
-      expect(dru_command).to receive(:run).with(Dru::DOCKER_COMPOSE_COMMAND, *docker_compose_paths, 'ps', '--services', printer: :null)
+      expect(dru_command).to receive(:run).with(Dru::DOCKER_COMPOSE_COMMAND, '-p', 'app', *docker_compose_paths, 'ps', '--services', printer: :null)
       dru_command.run_docker_compose_command('ps', '--services', printer: :null)
     end
   end
@@ -126,6 +128,28 @@ RSpec.describe Dru::Command do
     it 'calls #run_docker_compose_command with default params and custom container name' do
       expect(dru_command).to receive(:run_docker_compose_command).with('ps', '-q', 'db', only_output_on_error: true).and_return(result)
       expect(dru_command.container_name_to_id('db')).to eq(stripped_output)
+    end
+  end
+
+  describe '#docker_compose_project_name' do
+    subject { dru_command.docker_compose_project_name }
+
+    let(:project_name) { 'app' }
+
+    before do
+      allow(dru_command).to receive(:project_name).and_return(project_name)
+    end
+
+    context 'when environment option is not set' do
+      let(:environment) { nil }
+
+      it { is_expected.to eq('app') }
+    end
+
+    context 'when environment option is set' do
+      let(:environment) { 'test' }
+
+      it { is_expected.to eq('app_test') }
     end
   end
 end

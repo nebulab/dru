@@ -81,7 +81,7 @@ module Dru
     end
 
     def run_docker_compose_command(*command, **options)
-      run(DOCKER_COMPOSE_COMMAND, *docker_compose_paths, *command, **options)
+      run(DOCKER_COMPOSE_COMMAND, '-p', docker_compose_project_name, *docker_compose_paths, *command, **options)
     end
 
     def run_docker_command(*command, **options)
@@ -90,6 +90,12 @@ module Dru
 
     def container_name_to_id(container_name)
       run_docker_compose_command('ps', '-q', container_name, only_output_on_error: true).out.strip
+    end
+
+    def docker_compose_project_name
+      return project_name unless environment
+
+      "#{project_name}_#{environment}"
     end
 
     private
