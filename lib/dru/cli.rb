@@ -65,19 +65,5 @@ Usage:
         Dru::Commands::Attach.new(service: service, options: options).execute
       end
     end
-
-    desc 'up', 'Build, (re)create, start, and attach to default container'
-    method_option :help, aliases: '-h', type: :boolean,
-                         desc: 'Display usage information'
-    method_option :detach, aliases: '-d', type: :boolean,
-                           desc: 'Detached mode'
-    def up(*)
-      if options[:help]
-        invoke :help, ['up']
-      else
-        require_relative 'commands/up'
-        Dru::Commands::Up.new(options: options).execute
-      end
-    end
   end
 end
